@@ -72,7 +72,19 @@ app.get('/lessons', async (req, res, next) => {
     }
 });
 
+app.get("/enrolment/:id", async (req, res, next) => {
+    try{
+        const lessons = db.collection('lessons');
+        const lesson = await lessons.findOne({id: Number(req.params.id)});
 
+        const enrolment = lesson.totalSpace - lesson.availableSpace;
+        
+        res.send({lessonid: lesson.id, enrolment: enrolment});
+    }
+    catch(err) {
+        next(err)
+    }
+})
 
 
 //inserts order information to the collection
