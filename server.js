@@ -99,6 +99,8 @@ app.get("/teachers", async (req, res, next) => {
     }
 })
 
+
+
 app.get("/teachers/:id/lessons", async (req, res, next) => {
     try{
         const lessonCollection = db.collection('lessons');
