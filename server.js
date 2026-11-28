@@ -72,6 +72,7 @@ app.get('/lessons', async (req, res, next) => {
     }
 });
 
+//receives enrolment number from lesson id
 app.get("/enrolment/:id", async (req, res, next) => {
     try{
         const lessons = db.collection('lessons');
@@ -86,6 +87,30 @@ app.get("/enrolment/:id", async (req, res, next) => {
     }
 })
 
+app.get("/teachers", async (req, res, next) => {
+    try{
+        const teacherCollection = db.collection('teachers');
+        const teachers = await teacherCollection.find().toArray();
+
+        res.send(teachers)
+    } 
+    catch (err){
+        next(err);
+    }
+})
+
+app.get("/teachers/:id/lessons", async (req, res, next) => {
+    try{
+        const lessonCollection = db.collection('lessons');
+        const lessons = await lessonCollection.find({id: Number(req.params.id)}).toArray();
+
+        res.send(lessons)
+    }
+    catch(err){
+        next(err);
+    }
+})
+
 
 //inserts order information to the collection
 app.post('/orders', async (req, res, next) => {
@@ -97,6 +122,7 @@ app.post('/orders', async (req, res, next) => {
     }
 });
 
+//
 app.put('/lessons/:id', async (req, res, next) => {
     try {
         if (!ObjectId.isValid(req.params.id)) {
